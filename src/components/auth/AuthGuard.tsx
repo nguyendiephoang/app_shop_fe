@@ -7,7 +7,9 @@ interface AuthGuardProps {
 }
 
 const AuthGuard = (props: AuthGuardProps) => {
-  const { children, fallback } = props
+  const { children,
+    //  fallback 
+    } = props
 
   return <>{children}</>
 }
