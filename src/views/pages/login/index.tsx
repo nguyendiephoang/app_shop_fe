@@ -31,17 +31,25 @@ import Image from 'next/image'
 import LoginDark from '/public/images/login-dark.png'
 import LoginLight from '/public/images/login-light.png'
 
+//** hook
+import { useAuth } from 'src/hooks/useAuth'
+
 type TProps = {}
- 
+
 type TDefaultValue = {
-  email: '',
+  email: ''
   password: ''
 }
 
-
 const LoginPage: NextPage<TProps> = () => {
+  //** State
   const [showPassword, setShowPassword] = useState(false)
   const [isRemember, setIsRemember] = useState(true)
+
+  //** context
+  const { login } = useAuth()
+
+  //** theme
   const theme = useTheme()
   const schema = yup
     .object()
@@ -54,10 +62,10 @@ const LoginPage: NextPage<TProps> = () => {
     })
     .required()
 
-    const defaultValues: TDefaultValue = {
-      email: '',
-      password: ''
-    }
+  const defaultValues: TDefaultValue = {
+    email: '',
+    password: ''
+  }
 
   const {
     handleSubmit,
@@ -69,6 +77,9 @@ const LoginPage: NextPage<TProps> = () => {
     resolver: yupResolver(schema)
   })
   const onSubmit = (data: { email: string; password: string }) => {
+    if (!Object.keys(errors)?.length) {
+      login({ ...data, rememberMe: isRemember })
+    }
     console.log('data', { data, errors })
   }
 
@@ -195,7 +206,7 @@ const LoginPage: NextPage<TProps> = () => {
             </Button>
             <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '4px' }}>
               <Typography>{"Don't have an account? "}</Typography>
-              <Link style={{ color: theme.palette.mode === 'light' ? theme.palette.common.black :  theme.palette.common.white}} href='/register' variant='body2'>
+              <Link style={{ color: theme.palette.primary.main }} href='/register' variant='body2'>
                 {'Register'}
               </Link>
             </Box>
