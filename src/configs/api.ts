@@ -1,6 +1,5 @@
-const BASE_URL = "http://localhost:3001/api"
+export const BASE_URL = process.env.NEXT_PUBLIC_API_HOST
 
-// process.env.APP_API_URL
 
 export const CONFIG_API = {
     AUTH: {

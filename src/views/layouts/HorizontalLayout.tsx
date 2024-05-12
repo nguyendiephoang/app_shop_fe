@@ -4,10 +4,14 @@ import MuiAppBar, { AppBarProps as MuiAppBarProps } from '@mui/material/AppBar'
 import Toolbar from '@mui/material/Toolbar'
 import Typography from '@mui/material/Typography'
 import IconButton from '@mui/material/IconButton'
-import Badge from '@mui/material/Badge'
+import Button from '@mui/material/Button'
 import { NextPage } from 'next'
 import IconifyIcon from 'src/components/Icon'
-import UserDropdown from 'src/components/user-dropdown'
+import UserDropdown from './components/user-dropdown'
+import ModeToggle from './components/mode-toggle'
+import { useAuth } from 'src/hooks/useAuth'
+import { useRouter } from 'next/router'
+import { ROUTE_CONFIG } from 'src/configs/route'
 
 const drawerWidth: number = 240
 
@@ -44,6 +48,8 @@ const AppBar = styled(MuiAppBar, {
 
 const VerticalLayout: NextPage<TProps> = ({ open, toggleDrawer, isHideMenu }) => {
   const theme = useTheme()
+  const { user } = useAuth()
+  const router = useRouter()
 
   return (
     <AppBar position='absolute' open={open}>
@@ -68,10 +74,17 @@ const VerticalLayout: NextPage<TProps> = ({ open, toggleDrawer, isHideMenu }) =>
             <IconifyIcon icon='ic:baseline-menu' />
           </IconButton>
         )}
-        <Typography component='h1' variant='h6' color='inherit' noWrap sx={{ flexGrow: 1 }}>
+        <Typography component='h1' variant='h6' color='inherit' noWrap sx={{ml: 2, flexGrow: 1 }}>
           Dashboard
         </Typography>
-        <UserDropdown />
+        <ModeToggle />
+        {user ? (
+          <UserDropdown />
+        ) : (
+          <Button variant='contained' sx={{ width: 'auto' }} onClick={() => router.push(ROUTE_CONFIG.LOGIN)}>
+            Sign In
+          </Button>
+        )}
         {/* <IconButton color='inherit'>
           <Badge badgeContent={4} color='primary'>
             <IconifyIcon icon='mingcute:notification-fill' />
