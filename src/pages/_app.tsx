@@ -30,6 +30,7 @@ import 'src/styles/globals.scss'
 import { store } from 'src/stores'
 import GuestGuard from 'src/components/auth/GuestGuard'
 import AuthGuard from 'src/components/auth/AuthGuard'
+import NoGuard from 'src/components/auth/NoGuard'
 import FallbackSpinner from 'src/components/fall-back'
 import { SettingsConsumer, SettingsProvider } from 'src/contexts/SettingsContext'
 import AclGuard from 'src/components/auth/AclGuard'
@@ -67,7 +68,7 @@ const Guard = ({ children, authGuard, guestGuard }: GuardProps) => {
   if (guestGuard) {
     return <GuestGuard fallback={<FallbackSpinner />}>{children}</GuestGuard>
   } else if (!guestGuard && !authGuard) {
-    return <>{children}</>
+    return <NoGuard fallback={<FallbackSpinner />}>{children}</NoGuard>
   } else {
     return <AuthGuard fallback={<FallbackSpinner />}>{children}</AuthGuard>
   }

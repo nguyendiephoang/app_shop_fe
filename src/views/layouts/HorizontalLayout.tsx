@@ -74,7 +74,7 @@ const VerticalLayout: NextPage<TProps> = ({ open, toggleDrawer, isHideMenu }) =>
             <IconifyIcon icon='ic:baseline-menu' />
           </IconButton>
         )}
-        <Typography component='h1' variant='h6' color='inherit' noWrap sx={{ml: 2, flexGrow: 1 }}>
+        <Typography component='h1' variant='h6' color='inherit' noWrap sx={{ml: 2, flexGrow: 1, cursor: 'pointer' }} onClick={() => router.push('/') }>
           Dashboard
         </Typography>
         <ModeToggle />

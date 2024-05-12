@@ -34,6 +34,7 @@ import { getAuthMe } from 'src/services/auth'
 import { UserDataType } from 'src/contexts/types'
 import { convertBase64, separationFullName, toFullName } from 'src/utils'
 import FallbackSpinner from 'src/components/fall-back'
+import Spinner from 'src/components/spinner'
 
 type TProps = {}
 
@@ -163,7 +164,7 @@ const MyProfilePage: NextPage<TProps> = () => {
 
   return (
     <>
-      {loading || (isLoading && <FallbackSpinner />)}
+      {loading || (isLoading && <Spinner />)}
       <form onSubmit={handleSubmit(onSubmit)} autoComplete='off' noValidate>
         <Grid container>
           <Grid
