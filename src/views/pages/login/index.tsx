@@ -33,6 +33,7 @@ import LoginLight from '/public/images/login-light.png'
 
 //** hook
 import { useAuth } from 'src/hooks/useAuth'
+import toast from 'react-hot-toast'
 
 type TProps = {}
 
@@ -70,7 +71,8 @@ const LoginPage: NextPage<TProps> = () => {
   const {
     handleSubmit,
     control,
-    formState: { errors }
+    formState: { errors },
+    setError
   } = useForm({
     defaultValues,
     mode: 'onBlur',
@@ -78,7 +80,11 @@ const LoginPage: NextPage<TProps> = () => {
   })
   const onSubmit = (data: { email: string; password: string }) => {
     if (!Object.keys(errors)?.length) {
-      login({ ...data, rememberMe: isRemember })
+      login({ ...data, rememberMe: isRemember }, (err) =>{
+        if(err?.response?.data?.typeError === 'INVALID'){
+          toast.error(String(err?.response?.data?.message))
+        }
+      })
     }
     console.log('data', { data, errors })
   }

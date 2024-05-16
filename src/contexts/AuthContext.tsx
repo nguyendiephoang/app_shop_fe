@@ -16,6 +16,7 @@ import { loginAuth, logoutAuth } from 'src/services/auth'
 import { CONFIG_API } from 'src/configs/api'
 import { clearLocalUserData, setLocalUserData } from 'src/helpers/storage'
 import instanceAxios from 'src/helpers/axios'
+import toast from 'react-hot-toast'
 
 // ** Defaults
 const defaultProvider: AuthValuesType = {
@@ -70,10 +71,8 @@ const AuthProvider = ({ children }: Props) => {
   }, [])
 
   const handleLogin = (params: LoginParams, errorCallback?: ErrCallbackType) => {
-    setLoading(true)
     loginAuth({ email: params.email, password: params.password })
       .then(async response => {
-    setLoading(false)
         params.rememberMe
           ? setLocalUserData(
               JSON.stringify(response.data.user),
@@ -81,6 +80,7 @@ const AuthProvider = ({ children }: Props) => {
               response.data.refresh_token
             )
           : null
+          toast.success("Login success")
         const returnUrl = router.query.returnUrl
         setUser({ ...response.data.user })
         const redirectURL = returnUrl && returnUrl !== '/' ? returnUrl : '/'
@@ -89,8 +89,6 @@ const AuthProvider = ({ children }: Props) => {
       })
 
       .catch(err => {
-    setLoading(false)
-
         if (errorCallback) errorCallback(err)
       })
   }
